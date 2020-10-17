@@ -86,14 +86,4 @@ class Zomato:
             raise Exception('ApiLimitExceeded')
         else:
             return True
-        
-        
-    def is_valid_city_id(self, city_ID):
-        """
-        Checks if the City ID is valid or invalid.
-        If invalid, throws a InvalidCityId Exception.
-        """
-        city_ID = str(city_ID)
-        if city_ID.isnumeric() == False:
-            return True# raise ValueError('InvalidCityId')
 

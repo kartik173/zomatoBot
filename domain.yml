@@ -14,6 +14,10 @@ slots:
     type: text
   location:
     type: text
+  budget:
+    type: text
+  send:
+    type: text
 templates:
   utter_ask_cuisine:
   - buttons:
