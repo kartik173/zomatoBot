@@ -85,7 +85,7 @@ class Actions:
 loc = "delhi"
 cuisine = 'chinese'
 price='lesser than 300'  
-mailid='kartik10messi@gmail.com'
+mailid='sc.13302.cs2013@gmail.com'
 action=Actions()
 res=action.getResults(loc, cuisine)
 filtered = action.filterByBudget(res, price)

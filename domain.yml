@@ -4,11 +4,14 @@ intents:
 - greet
 - goodbye
 - stop
+- ask_budget
+- ask_email
+- thank
+- deny
 entities:
 - cuisine
 - location
-- price
-- people
+- budget
 slots:
   cuisine:
     type: text
@@ -17,7 +20,7 @@ slots:
   budget:
     type: text
   send:
-    type: text
+    type: boolean
 templates:
   utter_ask_cuisine:
   - buttons:
