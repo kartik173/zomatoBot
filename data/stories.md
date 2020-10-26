@@ -1,2666 +1,720 @@
-<!-- markdownlint-disable -->
+## story_send_mail
+> checkpoint_mail
+* affirm
+  - utter_ask_mail
+* send_over_email{"email": "abc@abc.com"}
+  - email_restaurant_details
+  - utter_goodbye
+  - action_restart
 
-<!-- greet, ask restaurant -->
-## story_01_location_cuisine_valid_with_email
+## story_deny_mail
+> checkpoint_mail
+* deny
+  - utter_did_that_help
+* affirm
+  - utter_goodbye
+  - action_restart
+  
+## story_greet
+* greet
+  - utter_greet
+
+## story_01_location_cuisine_valid
 * greet
   - utter_greet
 * restaurant_search
   - utter_ask_location
 * restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location": "Bangalore"}
   - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "299"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine": "Chinese"}
+  - utter_ask_price
+* search_by_budget{"price": "lesser than 300"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "lesser than 300"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_02_location_invalid_retry_with_email
+
+## story_02_location_invalid_retry
 * greet
   - utter_greet
 * restaurant_search
   - utter_ask_location
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
+* restaurant_search{"location": "Japan"}
+  - action_check_location
+  - slot{"location_validation" : false}
   - utter_location_invalid
-  - utter_ask_location_retry
 * affirm
   - utter_ask_location  
-  - action_slot_reset
 * restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location": "Bangalore"}
   - utter_ask_cuisine  
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "299"}
+* restaurant_search{"cuisine": "Mexican"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine": "Mexican"}
+  - utter_ask_price
+* search_by_budget{"price": "more than 700"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "more than 300"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
+
 
 ## story_03_location_invalid
 * greet
   - utter_greet
 * restaurant_search
   - utter_ask_location
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
+* restaurant_search{"location": "America"}
+  - action_check_location
+  - slot{"location_validation" : false}
   - utter_location_invalid
-  - utter_ask_location_retry
 * deny
   - utter_deny
-  - utter_bye
-  - action_slot_reset  
+  - utter_goodbye 
   - action_restart
 
-## story_04_location_cuisine_valid_no_email
-* greet
-  - utter_greet
-* restaurant_search
-  - utter_ask_location
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "299"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_05_location_out_of_scope_affirm  
-* greet
-  - utter_greet
-* restaurant_search
-  - utter_ask_location
-* out_of_scope
-  - action_slot_reset
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine  
-* restaurant_search{"cuisine": "Chinese"} 
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
-
-## story_06_location_out_of_scope_deny
-* greet
-  - utter_greet
-* restaurant_search
-  - utter_ask_location
-* out_of_scope
-  - action_slot_reset
-  - utter_location_invalid
-  - utter_ask_location_retry
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
 
 <!-- greet, location + cuisine-->
-## story_07_location_cuisine_budget_valid_with_email
+## story_06_location_cuisine_given
 * greet
   - utter_greet
-* restaurant_search{"location": "Mumbai", "cuisine": "chinese"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "701"}
+* restaurant_search{"location": "Mumbai", "cuisine": "Chinese"}
+  - action_check_location
+  - slot{"location_validation" : true}  
+  - slot{"location": "Mumbai"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine": "Chinese"}
+  - utter_ask_price
+* search_by_budget{"price": "more than 700"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "more than 700"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_08_location_cuisine_budget_valid_no_email
+
+## story_07_location_cuisine_invalid_retry
 * greet
   - utter_greet
-* restaurant_search{"location": "agra", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_09_location_cuisine_invalid_retry_with_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Mumbai", "cuisine": "chinese"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
+* restaurant_search{"location": "Mumbai", "cuisine": "french"}
+  - action_check_location
+  - slot{"location_validation" : true}  
+  - slot{"location": "Mumbai"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : false}
   - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
 * affirm
   - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "701"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine": "Chinese"}
+  - utter_ask_price
+* search_by_budget{"price": "more than 700"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "more than 700"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_10_location_cuisine_invalid_retry_no_email
+
+## story_08_cuisine_invalid_retry_deny
 * greet
   - utter_greet
 * restaurant_search{"location": "agra", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
+  - action_check_location
+  - slot{"location_validation" : true}  
+  - slot{"location" : "Agra"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : false}
   - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* affirm
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_11_cuisine_invalid_retry_deny
-* greet
-  - utter_greet
-* restaurant_search{"location": "agra", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
 * deny
   - utter_deny
-  - utter_bye
-  - action_slot_reset
+  - utter_goodbye
+  - action_restart
 
 <!-- no greet, location + cuisine -->
-## story_12_no_greet_location_cuisine_budget_valid_no_email
-* restaurant_search{"cuisine":"indian","location":"Mysore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget":"701"}
+## story_09_no_greet_location_cuisine_budget_valid_no_email
+* restaurant_search{"cuisine":"south indian","location":"Mysore"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Mysore"}  
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "South Indian"}
+  - utter_ask_price
+* search_by_budget{"price":"more than 700"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "more than 700"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_deny
-* thank
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_13_no_greet_location_cuisine_budget_valid_with_email
-* restaurant_search{"cuisine":"indian","location":"Mysore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget":"701"}
+
+## story_10_no_greet_location_cuisine_budget_valid_with_email
+* restaurant_search{"cuisine":"north indian","location":"Mysore"}
+  - action_check_location
+  - slot{"location_validation" : true}  
+  - slot{"location" : "Mysore"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "north indian"}
+  - utter_ask_price
+* search_by_budget{"price":"more than 700"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "more than 700"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_14_no_greet_location_cuisine_invalid_retry_no_email
+## story_11_no_greet_location_cuisine_invalid_retry_no_email
 * restaurant_search{"cuisine":"indian","location":"Mysore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
+  - action_check_location
+  - slot{"location_validation" : true}  
+  - slot{"location" : "Mysore"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : false}
   - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
 * affirm
   - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget":"701"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "Chinese"}
+  - utter_ask_price
+* search_by_budget{"price":"more than 700"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "more than 700"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
+  - utter_ask_for_send
+> checkpoint_mail
+
+
+## story_12_no_greet_location_cuisine_invalid_retry_deny
+* restaurant_search{"cuisine":"indian","location":"Mysore"}
+  - action_check_location
+  - slot{"location_validation" : true}  
+  - slot{"location" : "Mysore"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : false}
+  - utter_cuisine_invalid
 * deny
   - utter_deny
-  - utter_bye
+  - utter_goodbye
   - action_restart
 
-## story_15_no_greet_location_cuisine_invalid_retry_deny
+## story_13_no_greet_location_cuisine_invalid_retry_with_email
 * restaurant_search{"cuisine":"indian","location":"Mysore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
+  - action_check_location
+  - slot{"location_validation" : true}  
+  - slot{"location" : "Mysore"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : false}
   - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_16_no_greet_location_cuisine_invalid_retry_with_email
-* restaurant_search{"cuisine":"indian","location":"Mysore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
 * affirm
   - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget":"701"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "Chinese"}
+  - utter_ask_price
+* search_by_budget{"price":"more than 700"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "more than 700"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
+
 
 <!-- queries with cuisine only -->
-
-<!-- start with greet, followed by question -->
-## story_17_greet_cuisine_valid_email
+## story_14_greet_cuisine_valid_email
 * greet
   - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
+* restaurant_search{"cuisine": "south indian"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "South Indian"}
   - utter_ask_location
 * restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Patna"}
+  - utter_ask_price
+* search_by_budget{"price": "lesser than 300"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "lesser than 300"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_18_greet_cuisine_valid_no_email
+
+## story_15_greet_cuisine_invalid_retry_email
 * greet
   - utter_greet
 * restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_19_greet_cuisine_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : false}
   - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
 * affirm
   - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "Chinese"}
   - utter_ask_location
 * restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Patna"}
+  - utter_ask_price
+* search_by_budget{"price": "lesser than 300"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "lesser than 300"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_20_greet_cuisine_invalid_retry_email
+## story_16_greet_cuisine_valid_location_invalid_retry_email
 * greet
   - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
+* restaurant_search{"cuisine": "south indian"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "south indian"}
+  - utter_ask_location
+* restaurant_search{"location": "USA"}
+  - action_check_location
+  - slot{"location_validation" : false}
+  - utter_location_invalid
+* affirm
+  - utter_ask_location  
+* restaurant_search{"location": "Bangalore"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Bangalore"}
+  - utter_ask_price
+* search_by_budget{"price": "lesser than 300"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "lesser than 300"}
+  - action_restaurant
+  - utter_ask_for_send
+> checkpoint_mail
+
+
+
+## story_17_no_greet_cuisine_invalid_retry_email
+* restaurant_search{"cuisine": "french"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : false}
   - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
 * affirm
   - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "Chinese"}
   - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
+* restaurant_search{"location": "Delhi"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Delhi"}
+  - utter_ask_price
+* search_by_budget{"price": "lesser than 300"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "lesser than 300"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_21_greet_cuisine_valid_location_invalid_retry_email
-* greet
-  - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
+## story_18_no_greet_cuisine_valid_location_invalid_retry_email
+* restaurant_search{"cuisine": "american"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "american"}
   - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
+* restaurant_search{"location": "Bharatpur"}
+  - action_check_location
+  - slot{"location_validation" : false}
   - utter_location_invalid
-  - utter_ask_location_retry
 * affirm
   - utter_ask_location  
 * restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-* ask_budget{"budget": "300"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Bangalore"}
+* search_by_budget{"price": "lesser than 300"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "lesser than 300"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
-
-## story_22_greet_cuisine_valid_location_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-<!-- no greet, start with cuisine -->
-## story_23_no_greet_cuisine_valid_email
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_24_no_greet_cuisine_valid_no_email
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_25_no_greet_cuisine_invalid_retry_no_email
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* affirm
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_26_no_greet_cuisine_invalid_retry_email
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* affirm
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_27_no_greet_cuisine_valid_location_invalid_retry_email
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_28_no_greet_cuisine_valid_location_invalid_retry_no_email
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
 <!-- queries with location only -->
 
 <!-- start with greet, followed by question -->
-## story_29_greet_location_valid_email
+## story_19_greet_location_valid
 * greet
   - utter_greet
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
+* restaurant_search{"location": "Chennai"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Chennai"}
   - utter_ask_cuisine
-* restaurant_search{"cuisine": "indian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
+* restaurant_search{"cuisine": "north indian"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "North Indian"}
+  - utter_ask_price
+* search_by_budget{"price": "lesser than 300"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "lesser than 300"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_30_greet_location_valid_no_email
+## story_20_greet_location_invalid_retry
 * greet
   - utter_greet
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "indian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_31_greet_location_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
+* restaurant_search{"location": "Brazil"}
+  - action_check_location
+  - slot{"location_validation" : false}
   - utter_location_invalid
-  - utter_ask_location_retry
 * affirm
   - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
+* restaurant_search{"location": "Mumbai"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Mumbai"}
   - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "Chinese"}
+  - utter_ask_price
+* search_by_budget{"price": "lesser than 300"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "lesser than 300"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_32_greet_location_invalid_retry_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-<!-- no greet, start with location -->
-## story_33_no_greet_location_cuisine_budget_valid_email
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "indian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_34_no_greet_location_cuisine_budget_valid_no_email
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "indian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_35_no_greet_location_invalid_retry_no_email
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_36_no_greet_location_invalid_retry_email
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
 
 <!-- cuisine + location, both invalid -->
-
-<!-- greet, followed by question -->
-## story_37_greet_cuisine_and_location_invalid_retry_email
+## story_21_greet_cuisine_and_location_invalid_retry
 * greet
   - utter_greet
-* restaurant_search{"location": "Delhi", "cuisine": "french"}
-  - action_location_valid
-  - slot{"location_validity": "invalid"}
+* restaurant_search{"location": "Navi", "cuisine": "french"}
+  - action_check_location
+  - slot{"location_validation": false}
   - utter_location_invalid
-  - utter_ask_location_retry
 * affirm
-  - action_slot_reset
   - utter_ask_location
-* restaurant_search{"location": "Delhi"}
-  - action_location_valid
-  - slot{"location_validity": "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "french"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity": "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_38_greet_cuisine_and_location_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Vizag", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location
-* restaurant_search{"location": "Vizag"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "italian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-<!-- no greet -->
-## story_39_no_greet_cuisine_and_location_invalid_retry_email
-* restaurant_search{"location": "Delhi", "cuisine": "french"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location
-* restaurant_search{"location": "Delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "french"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_40_no_greet_cuisine_and_location_invalid_retry_no_email
-* restaurant_search{"location": "Vizag", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location
-* restaurant_search{"location": "Vizag"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "italian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-<!-- invalid search -->
-## story_41_location_cuisine_valid_search_invalid
-* greet
-  - utter_greet
-* restaurant_search
-  - utter_ask_location
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "299"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-
-## story_42_location_invalid_retry_search_invalid
-* greet
-  - utter_greet
-* restaurant_search
-  - utter_ask_location
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location  
-  - action_slot_reset
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine  
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "299"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-
-## story_43_location_cuisine_budget_valid_search_invalid
-* greet
-  - utter_greet
-* restaurant_search{"location": "Mumbai", "cuisine": "chinese"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "701"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-  
-## story_44_location_cuisine_invalid_retry_search_invalid
-* greet
-  - utter_greet
-* restaurant_search{"location": "Mumbai", "cuisine": "chinese"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
+* restaurant_search{"location": "Mumbai"}
+  - action_check_location
+  - slot{"location_validation": true}
+  - slot{"location" : "Mumbai"}
+  - slot{"cuisine" : "french"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : false}
   - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
 * affirm
   - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "701"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "Chinese"}
+  - utter_ask_price
+* search_by_budget{"price": "lesser than 300"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "lesser than 300"}
   - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_45_no_greet_location_cuisine_budget_valid_search_invalid
-* restaurant_search{"cuisine":"indian","location":"Mysore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget":"701"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
 
-## story_46_no_greet_location_cuisine_invalid_retry_search_invalid
-* restaurant_search{"cuisine":"indian","location":"Mysore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* affirm
+## story_22_greet_location_valid
+* greet
+  - utter_greet
+* restaurant_search{"location": "Patna"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Patna"}
   - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget":"701"}
+* restaurant_search{"cuisine": "south indian"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "south indian"}
+  - utter_ask_price
+* search_by_budget{"price": "lesser than 300"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "lesser than 300"}
   - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-  
-## story_47_greet_cuisine_valid_search_invalid
-* greet
-  - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_48_greet_cuisine_invalid_retry_search_invalid
+## story_23_greet_location_invalid_no_retry
 * greet
   - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* affirm
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-
-## story_49_greet_cuisine_valid_location_invalid_retry_search_invalid
-* greet
-  - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
+* restaurant_search{"location": "Rameswaram"}
+  - action_check_location
+  - slot{"location_validation" : false}
   - utter_location_invalid
-  - utter_ask_location_retry
 * affirm
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-  
-## story_50_no_greet_cuisine_valid_search_invalid
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
   - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-
-## story_51_no_greet_cuisine_invalid_retry_search_invalid
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* affirm
+* restaurant_search{"location": "Chennai"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Chennai"}
   - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "Chinese"}
+  - utter_ask_price
+* search_by_budget{"price": "between 300 to 700"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "between 300 to 700"}
   - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
+  - utter_ask_for_send
+> checkpoint_mail
 
-## story_52_no_greet_cuisine_valid_location_invalid_retry_search_invalid
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-
-## story_53_greet_location_valid_search_invalid
-* greet
-  - utter_greet
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "indian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-
-## story_54_greet_location_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-
-## story_55_no_greet_location_cuisine_budget_valid_search_invalid
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "indian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-
-## story_56_no_greet_location_invalid_retry_search_invalid
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-
-## story_57_greet_cuisine_and_location_invalid_retry_search_invalid
-* greet
-  - utter_greet
-* restaurant_search{"location": "Delhi", "cuisine": "french"}
-  - action_location_valid
-  - slot{"location_validity": "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location
-* restaurant_search{"location": "Delhi"}
-  - action_location_valid
-  - slot{"location_validity": "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "french"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-
-## story_58_no_greet_cuisine_and_location_invalid_retry_search_invalid
-* restaurant_search{"location": "Delhi", "cuisine": "french"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location
-* restaurant_search{"location": "Delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "french"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "invalid", "email_message": ""}
-  - utter_search_invalid
-  - utter_bye
-  - action_restart
-
-<!-- chat-bot not helpful -->
-## story_59_location_cuisine_valid_no_email
-* greet
-  - utter_greet
-* restaurant_search
-  - utter_ask_location
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "299"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_60_location_cuisine_budget_valid_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "agra", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-  
-## story_61_location_cuisine_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "agra", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* affirm
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_62_greet_cuisine_valid_no_email
-* greet
-  - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_63_greet_cuisine_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* affirm
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_64_greet_cuisine_valid_location_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_65_no_greet_cuisine_valid_no_email
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_66_no_greet_cuisine_invalid_retry_no_email
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* affirm
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_67_no_greet_cuisine_valid_location_invalid_retry_no_email
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_68_greet_cuisine_and_location_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Vizag", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location
-* restaurant_search{"location": "Vizag"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "italian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_69_greet_location_valid_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "indian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_70_greet_location_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_71_no_greet_location_valid_no_email
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "indian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_72_no_greet_location_invalid_retry_no_email
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
 
 <!-- stop conversation with denial-->
-## story_73_location_invalid_retry
-* restaurant_search{"location":"Kolkata", "cuisine":"mexican"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_74_location_valid_cuisine_invalid_retry
-* restaurant_search{"location":"Kolkata", "cuisine":"mexican"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_75_no_greet_location_invalid_retry
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_76_greet_location_invalid_retry
+## story_24_greet_location_invalid_retry
 * greet
   - utter_greet
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
+* restaurant_search{"location":"Kolar", "cuisine":"mexican"}
+  - action_check_location
+  - slot{"location_validation" : false}
   - utter_location_invalid
-  - utter_ask_location_retry
 * deny
   - utter_deny
-  - utter_bye
+  - utter_goodbye
   - action_restart
 
-## story_77_no_greet_cuisine_invalid_retry
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
+## story_25_greet_location_valid_cuisine_invalid_retry
+* greet
+  - utter_greet
+* restaurant_search{"location":"Kolkata", "cuisine":"Punjabi"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Kolkata"}
+  - slot{"cuisine" : "Punjabi"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : false}
   - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
 * deny
   - utter_deny
-  - utter_bye
+  - utter_goodbye
   - action_restart
 
-## story_78_no_greet_cuisine_invalid_retry
+
+## story_26_greet_location_invalid_retry
+* greet
+  - utter_greet
+* restaurant_search{"location": "Munnar"}
+  - action_check_location
+  - slot{"location_validation" : false}
+  - utter_location_invalid
+* deny
+  - utter_deny
+  - utter_goodbye
+  - action_restart
+
+
+## story_27_greet_cuisine_invalid_retry
 * greet
   - utter_greet
 * restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : false}
   - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
 * deny
   - utter_deny
-  - utter_bye
+  - utter_goodbye
   - action_restart
 
-<!-- drop out of conversation with bye-->
-## story_79_greet_drop
-* greet
-  - utter_greet
-* bye
-  - utter_bye
-  - action_restart
 
-## story_80_restaurant_search_drop
-* restaurant_search
-  - utter_ask_location
-* bye
-  - utter_bye
-  - action_restart
-
-## story_81_no_greet_location_invalid_drop
-* restaurant_search{"location": "delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* bye
-  - utter_bye
-  - action_restart
-
-## story_82_no_greet_location_invalid_retry_cuisine_drop
-* restaurant_search
-  - utter_ask_location
-* restaurant_search{"location": "delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* bye
-  - utter_bye
-  - action_restart
-
-## story_83_no_greet_location_invalid_retry_cuisine_drop
-* restaurant_search{"location": "delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* bye
-  - utter_bye
-  - action_restart
-
-## story_84_no_greet_location_invalid_retry_affirm_drop
-* restaurant_search
-  - utter_ask_location
-* restaurant_search{"location": "delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location
-* bye
-  - utter_bye
-  - action_restart
-
-## story_85_ask_location_drop
-* greet
-  - utter_greet
-* restaurant_search
-  - utter_ask_location
-* bye
-  - utter_bye
-  - action_restart
-
-## story_86_no_greet_location_invalid_retry_email_drop
-* restaurant_search{"location": "delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* bye
-  - utter_bye
-  - action_restart
-
-## story_87_no_greet_location_invalid_retry_email_drop
-* restaurant_search
-  - utter_ask_location
-* restaurant_search{"location": "delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* bye
-  - utter_bye
-  - action_restart
 
 <!-- handling out of scope responses -->
-## story_88_greet_out_of_scope
+## story_28_greet_out_of_scope
 * greet
   - utter_greet
 * out_of_scope
   - utter_out_of_scope
-  - utter_bye
+  - utter_goodbye
   - action_restart
 
-## story_89_no_greet_location_retry_out_of_scope
+## story_29_no_greet_location_retry_out_of_scope
 * restaurant_search
   - utter_ask_location
 * out_of_scope
-  - utter_location_invalid
-  - utter_ask_location_retry
+  - utter_out_of_scope
 * out_of_scope
-  - utter_bye
+  - utter_goodbye
   - action_restart
 
-## story_90_no_greet_location_invalid_out_of_scope
-* restaurant_search{"location": "delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
+## story_30_no_greet_location_invalid_out_of_scope
+* restaurant_search{"location": "Paris"}
+  - action_check_location
+  - slot{"location_validation" : false}
   - utter_location_invalid
-  - utter_ask_location_retry
 * out_of_scope
-  - utter_bye
+  - utter_goodbye
   - action_restart
 
-## story_91_location_invalid_retry_email_out_of_scope
+## story_31_location_invalid_retry_out_of_scope
 * restaurant_search
   - utter_ask_location
-* restaurant_search{"location": "delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
+* restaurant_search{"location": "Alwar"}
+  - action_check_location
+  - slot{"location_validation" : false}
   - utter_location_invalid
-  - utter_ask_location_retry
 * affirm
-  - action_slot_reset
   - utter_ask_location  
 * restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Bangalore"}
   - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "Chinese"}
+  - utter_ask_price
+* search_by_budget{"price": "between 300 to 700"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price": "between 300 to 700"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
+  - utter_ask_for_send
 * out_of_scope
-  - utter_ask_details
+  - utter_out_of_scope
 * deny
-  - utter_bye
+  - utter_goodbye
   - action_restart
 
-## story_92_location_invalid_retry_email_out_of_scope
+## story_32_location_invalid_retry_email_out_of_scope
 * restaurant_search
   - utter_ask_location
-* restaurant_search{"location": "delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
+* restaurant_search{"location": "Champaran"}
+  - action_check_location
+  - slot{"location_validation" : false}
   - utter_location_invalid
-  - utter_ask_location_retry
 * affirm
-  - action_slot_reset
   - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
+* restaurant_search{"location": "Patna"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Patna"}
   - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "Chinese"}
+  - utter_ask_price
+* search_by_budget{"price": "lesser than 300"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price" : "lesser than 300"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
+  - utter_ask_for_send
 * out_of_scope
-  - utter_ask_details
+  - utter_out_of_scope
 * affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
+  - utter_ask_mail
+> checkpoint_mail
 
-## story_93_location_invalid_out_of_scope
-* restaurant_search{"location":"Kolkata", "cuisine":"mexican"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
+## story_33_location_invalid_out_of_scope
+* restaurant_search{"location":"Kerala", "cuisine":"mexican"}
+  - action_check_location
+  - slot{"location_validation" : false}
   - utter_location_invalid
-  - utter_ask_location_retry
 * out_of_scope
-  - utter_bye
-  - action_restart
-
-## story_94_location_invalid_retry_email_out_of_scope
-* restaurant_search{"location":"Kolkata", "cuisine":"mexican"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine":"mexican"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* out_of_scope
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_95_location_invalid_retry_email_out_of_scope
-* restaurant_search{"location":"Kolkata", "cuisine":"mexican"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine":"mexican"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* out_of_scope
-  - utter_ask_details
+  - utter_out_of_scope
 * deny
-  - utter_bye
+  - utter_deny
+  - utter_goodbye
   - action_restart
 
-## story_96_location_invalid_retry_email_out_of_scope
-* restaurant_search{"location": "delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "700"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* out_of_scope
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
 
-## story_97_location_invalid_retry_email_out_of_scope
-* restaurant_search{"location": "delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "700"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* out_of_scope
-  - utter_ask_details
-* deny
-  - utter_bye
-  - action_restart
-
-## story_98_cuisine_location_buget_valid_email_out_of_scope
-* restaurant_search{"location":"Kolkata", "cuisine":"mexican"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* out_of_scope
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_99_cuisine_location_buget_valid_email_out_of_scope
-* restaurant_search{"location":"Kolkata", "cuisine":"mexican"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* out_of_scope
-  - utter_ask_details
-* deny
-  - utter_bye
-  - action_restart
-
-## story_100_location_cuisine_budget_valid_with_email
+## story_34_location_cuisine_budget_valid_with_email
 * greet
   - utter_greet
 * restaurant_search{"location": "Mumbai", "cuisine": "chinese"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "701"}
+  - action_check_location
+  - slot{"location_validation" : true}
+  - slot{"location" : "Mumbai"}
+  - action_check_cuisine
+  - slot{"cuisine_validation" : true}
+  - slot{"cuisine" : "Chinese"}
+  - utter_ask_price
+* search_by_budget{"price": "more than 700"}
+  - action_check_price
+  - slot{"price_validation" : true}
+  - slot{"price" : "more than 700"}
   - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
+  - utter_ask_for_send
+* send_over_email{"email": "abc@abc.com"}
+  - email_restaurant_details
+  - utter_goodbye
+  - action_restart
 * thank
-  - utter_bye
+  - utter_goodbye
   - action_restart
 
-## story_101_no_greet_location_cuisine_budget_valid_with_email
-* restaurant_search{"cuisine":"indian","location":"Mysore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget":"701"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
 
-## story_102_location_cuisine_valid_with_email
+## interactive_story_valid_location_cuisine_price
 * greet
-  - utter_greet
-* restaurant_search
-  - utter_ask_location
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
+    - utter_greet
+* restaurant_search{"location": "Jaipur"}
+    - slot{"location": "Jaipur"}
+    - action_check_location
+    - slot{"location_validation": true}
+    - slot{"location": "Jaipur"}
+    - utter_ask_cuisine
 * restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "299"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
-
-## story_103_location_out_of_scope_affirm  
-* greet
-  - utter_greet
-* restaurant_search
-  - utter_ask_location
-* out_of_scope
-  - action_slot_reset
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location  
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine  
-* restaurant_search{"cuisine": "Chinese"} 
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
-
-## story_104_greet_cuisine_and_location_invalid_retry_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Delhi", "cuisine": "french"}
-  - action_location_valid
-  - slot{"location_validity": "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* affirm
-  - action_slot_reset
-  - utter_ask_location
-* restaurant_search{"location": "Delhi"}
-  - action_location_valid
-  - slot{"location_validity": "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "french"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity": "valid", "email_message": ""}
-  - utter_ask_details
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_105_location_invalid_retry_with_email
-* greet
-  - utter_greet
-* restaurant_search
-  - utter_ask_location
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-  - action_slot_reset
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine  
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "299"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
-
-## story_106_greet_cuisine_valid_location_invalid_retry_email
-* greet
-  - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_bye
-  - action_restart
-
-## story_107_greet_cuisine_valid_location_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_108_no_greet_cuisine_valid_location_invalid_retry_email
-* restaurant_search{"cuisine": "indian"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_location
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* restaurant_search{"location": "Bangalore"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_109_greet_location_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_bye
-  - action_restart
-
-## story_110_greet_location_invalid_retry_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_111_no_greet_location_invalid_retry_no_email
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_112_no_greet_location_invalid_retry_email
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* restaurant_search{"location": "Patna"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "Chinese"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-* thank
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_113_greet_cuisine_and_location_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "Vizag", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-  - action_slot_reset
-* restaurant_search{"location": "Vizag"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "italian"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* affirm
-  - utter_happy
-  - utter_bye
-  - action_restart
-
-## story_114_no_greet_cuisine_and_location_invalid_retry_email
-* restaurant_search{"location": "Delhi", "cuisine": "french"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-  - action_slot_reset
-* restaurant_search{"location": "Delhi"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_cuisine
-* restaurant_search{"cuisine": "french"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}
-  - utter_ask_details
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_115_greet_location_cuisine_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "agra", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* restaurant_search{"cuisine": "Chinese"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_116_no_greet_location_cuisine_invalid_retry_no_email
-* restaurant_search{"location": "agra", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* restaurant_search{"cuisine": "Chinese"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_117_greet_cuisine_location_invalid_retry_no_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "agra", "cuisine": "italian"} 
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* restaurant_search{"location": "agra"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_118_no_greet_cuisine_location_invalid_retry_no_email
-* restaurant_search{"location": "agra", "cuisine": "italian"} 
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* restaurant_search{"location": "agra"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* deny
-  - utter_did_that_help
-* deny
-  - utter_deny
-  - utter_bye
-  - action_restart
-
-## story_119_greet_location_cuisine_invalid_retry_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "agra", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* restaurant_search{"cuisine": "Chinese"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_120_no_greet_location_cuisine_invalid_retry_email
-* restaurant_search{"location": "agra", "cuisine": "italian"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}  
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "invalid"}
-  - utter_cuisine_invalid
-  - utter_ask_cuisine_retry
-* restaurant_search{"cuisine": "Chinese"}
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_121_greet_cuisine_location_invalid_retry_email
-* greet
-  - utter_greet
-* restaurant_search{"location": "agra", "cuisine": "italian"} 
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* restaurant_search{"location": "agra"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-## story_122_no_greet_cuisine_location_invalid_retry_email
-* restaurant_search{"location": "agra", "cuisine": "italian"} 
-  - action_cuisine_valid
-  - slot{"cuisine_validity" : "valid"}
-  - action_location_valid
-  - slot{"location_validity" : "invalid"}
-  - utter_location_invalid
-  - utter_ask_location_retry
-* restaurant_search{"location": "agra"}
-  - action_location_valid
-  - slot{"location_validity" : "valid"}
-  - utter_ask_budget
-* ask_budget{"budget": "300"}
-  - action_restaurant
-  - slot{"search_validity" : "valid", "email_message": ""}  
-  - utter_ask_details
-* affirm
-  - utter_ask_email
-* ask_email{"email": "abc@abc.com"}
-  - action_send_email
-  - utter_confirm_email
-  - utter_bye
-  - action_restart
-
-<!-- markdownlint-restore -->
-
+    - slot{"cuisine": "Chinese"}
+    - action_check_cuisine
+    - slot{"cuisine_validation": true}
+    - slot{"cuisine": "Chinese"}
+    - utter_ask_price
+* search_by_budget{"price": "between 300 to 700"}
+    - slot{"price": "between 300 to 700"}
+    - action_check_price
+    - slot{"price_validation": true}
+    - slot{"price": "between 300 to 700"}
+    - action_restaurant
+    - utter_ask_for_send
+> checkpoint_mail

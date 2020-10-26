@@ -11,7 +11,6 @@
 - great choice
 - sounds really good
 - thanks
-- thanks
 - great choice
 - ya
 - that's fine
@@ -23,7 +22,6 @@
 - yes right
 - yes yes
 - absolutely
-- Y
 - y
 
 ## intent:goodbye
@@ -63,8 +61,6 @@
 - good afternoon
 - dear sir
 - Hi there
-- Hi
-- hello
 - Hi bot
 - Hey robot
 - Hey bot
@@ -72,15 +68,16 @@
 - hi there
 - hello there
 - Hi bot
-- hi bot
 - Howdy
 - hi mister
 - hey mister
 - hi pal
-- Hey 
 - Hello
 - Hola
 - yo
+- wassup
+- whatsup
+- sup
 
 ## intent:thank
 - Thanks
@@ -161,9 +158,10 @@
 - i want a non dripping ice cream
 - hey little mama let em whisper in your ear
 - someone call the police i think the bot died
+- I want a restaurant in Russia
 - show me a picture of a chicken
 - neither
-- I want french cuisine
+- I want [french](cuisine) cuisine
 - i am hungry
 - restaurants
 - restaurant
@@ -185,7 +183,7 @@
 - you already have that
 - this is a really frustrating experience
 - no stop
-- i want a french restaurant
+- i want a [french](cuisine) restaurant
 - shit bot
 - do you want to marry me?
 - give me food
@@ -265,26 +263,22 @@
 - But you're an english site :(
 - can you help me to build a bot
 
-## intent:ask_budget
-- I want to eat at a place between 300 and 700
-- I am fine with an expensive place
-- I am looking for a dinner place at less than 300
 
-## intent:ask_email
-- can u mail me the information to abc@abc.com?
-- can u mail to test@tes.com?
-- can u mail me at test-123.456@dom.123.co.in?
-- email address - test.some@gmail.co.in. Mail this list.
-- email me at email-123@domina.com
-- mail me emial@domain.io
-- my email address email.123-abc@domain.123.com
-- please mail me the list to 123-email@domain.co.in
-- please send me the list to 123@domain.net
-- please send this to email.123@123.456.com
-- send this to abc-email@abc.com
-- send to abc_123-email@abc123.com
-- this is my email address - email-abc_123@abc.com.edu. send me an email.
-- email1_34-ret@host-name.123.com
+## intent:send_over_email
+- can u mail me the information to [abc@abc.com](email)?
+- can u mail to [test@tes.com](email)?
+- can u mail me at [test-123.456@dom.123.co.in](email)?
+- email address - [test.some@gmail.co.in.](email) Mail this list.
+- email me at [email-123@domina.com](email)
+- mail me [emial@domain.io](email)
+- my email address [email.123-abc@domain.123.com](email)
+- please mail me the list to [123-email@domain.co.in](email)
+- please send me the list to [123@domain.net](email)
+- please send this to [email.123@123.456.com](email)
+- send this to [abc-email@abc.com](email)
+- send to [abc_123-email@abc123.com](email)
+- this is my email address - [email-abc_123@abc.com.edu.](email) send me an email.
+- [email1_34-ret@host-name.123.com](email)
 - can u share this information over email?
 - can u send me an email?
 - mail me the list
@@ -305,10 +299,10 @@
 - I am looking for some restaurants in [Bangalore](location)
 - show me [Chinese](cuisine) restaurants
 - show me [chines](cuisine:Chinese) restaurants in the [New Delhi](location:Delhi)
-- show me a [mexican](cuisine:Mexican) place in the [centre](location)
+- show me a [mexican](cuisine:Mexican) place in the [delhi](location)
 - i am looking for an [indian](cuisine) spot called olaolaolaolaolaola
 - search for restaurants
-- I am looking a restaurant in [294328](location)
+- I am looking a restaurant in [delhi](location)
 - in [Gurgaon](location)
 - [South Indian](cuisine)
 - [North Indian](cuisine)
@@ -358,7 +352,7 @@
 - I'm gonna need help finding a indian restaurant
 - i'm looking for a [Chinese](cuisine) restaurant
 - Hey, can you help me with locating a mexican restaurant
-- i want a french restaurant
+- i want a [french](cuisine) restaurant
 - What's a good place to eat [mexican](cuisine:Mexican) food
 - Find a restaurant for me where I can eat [north indian](cuisine:North Indian)
 - Find a restaurant for me to eat [mexican](cuisine:Mexican)
@@ -373,11 +367,11 @@
 - I need to find a restaurant southindian
 - A place to have [italian](cuisine:Italian) food
 - Suggest me a good [mexican](cuisine:Mexican) restaurant
-- how can you help me find a french restaurant?
+- how can you help me find a [french](cuisine) restaurant?
 - I'm gonna need help finding a indian restaurant in [Mysore](location)
 - i'm looking for a Chinese restaurant in [Lucknow](location)
 - Hey, can you help me with locating a mexican restaurant in Lakhanpur
-- i want a french restaurant in [Vizag](location)
+- i want a [french](cuisine) restaurant in [Vizag](location)
 - What's a good place to eat mexican food in Bangalore
 - Find a restaurant for me where I can eat north indian in [Jaipur](location)
 - Find a restaurant for me to eat mexican at [Faridabad](location)
@@ -404,7 +398,8 @@
 - Get me some food quickly
 - Pick some place for me to eat quickly
 - Where can i get some food to eat
-- i'm looking for a restaurant
+- i'm looking for a restaurant in [Dubai](location)
+- looking for a [Italian](cuisine) restaurant in [Japan](location)
 - how can you help me find a restaurant
 - pick a restaurant for me
 - please find a restaurant for me
@@ -417,114 +412,43 @@
 - I'm gonna need help finding a restaurant
 - Show me an open restaurant
 - Find a restaurant for me to eat
+- [Bengaluru](location:Bangalore)
+- [Bengalooru](location:Bangalore)
+- [bngalore](location:Bangalore)
+- [bengalluru](location:Bangalore)
+- [Bangalor](location:Bangalore)
+- [south india](cuisine:South India)
+- [south-india](cuisine:South India)
+- [north india](cuisine:North India)
+- [north-india](cuisine:North India)
+- [french](cuisine)
+- [continental](cuisine)
+- [punjabi](cuisine)
+- [sea-food](cuisine)
 
-## lookup:location
-- Ahmedabad
-- Bangalore
-- Chennai
-- Delhi
-- Hyderabad
-- Kolkata
-- Mumbai
-- Pune
-- Agra
-- Ajmer
-- Aligarh
-- Amravati
-- Amritsar
-- Asansol
-- Aurangabad
-- Bareilly
-- Belgaum
-- Bhavnagar
-- Bhiwandi
-- Bhopal
-- Bhubaneswar
-- Bikaner
-- Bilaspur
-- Bokaro Steel City
-- Chandigarh
-- Coimbatore
-- Cuttack
-- Dehradun
-- Dhanbad
-- Bhilai
-- Durgapur
-- Dindigul
-- Erode
-- Faridabad
-- Firozabad
-- Ghaziabad
-- Gorakhpur
-- Gulbarga
-- Guntur
-- Gwalior
-- Gurgaon
-- Guwahati
-- Hamirpur
-- Hubli–Dharwad
-- Indore
-- Jabalpur
-- Jaipur
-- Jalandhar
-- Jammu
-- Jamnagar
-- Jamshedpur
-- Jhansi
-- Jodhpur
-- Kakinada
-- Kannur
-- Kanpur
-- Karnal
-- Kochi
-- Kolhapur
-- Kollam
-- Kozhikode
-- Kurnool
-- Ludhiana
-- Lucknow
-- Madurai
-- Malappuram
-- Mathura
-- Mangalore
-- Meerut
-- Moradabad
-- Mysore
-- Nagpur
-- Nanded
-- Nashik
-- Nellore
-- Noida
-- Patna
-- Pondicherry
-- Purulia
-- Prayagraj
-- Raipur
-- Rajkot
-- Rajahmundry
-- Ranchi
-- Rourkela
-- Salem
-- Sangli
-- Shimla
-- Siliguri
-- Solapur
-- Srinagar
-- Surat
-- Thanjavur
-- Thiruvananthapuram
-- Thrissur
-- Tiruchirappalli
-- Tirunelveli
-- Ujjain
-- Bijapur
-- Vadodara
-- Varanasi
-- Vasai-Virar City
-- Vijayawada
-- Visakhapatnam
-- Vellore
-- Warangal 
+## intent:search_by_budget
+- I want to eat at a place [between 300 and 700](price)
+- I am fine with an expensive place
+- I am looking for a dinner place at [less than 300](price)
+- show me restaurants in price [more than 700](price)
+- list restaurants with budget [>300](price)
+- [between 300 to 700](price:between 300 to 700)
+- [lesser than 300](price:lesser than 300)
+- [more than 700](price:more than 700)
+- [<300](price:lesser than 300)
+- [less than 300](price:lesser than 300)
+- [below 300](price:lesser than 300)
+- [< 300](price:lesser than 300)
+- [in range of 300 to 700](price:between 300 to 700)
+- [between 300 and 700](price:between 300 to 700)
+- [300 - 700](price:between 300 to 700)
+- [300-700](price:between 300 to 700)
+
+
+## lookup:price
+- lesser than 300
+- between 300 to 700
+- more than 700
 
 ## lookup:cuisine
 - Chinese
@@ -534,45 +458,40 @@
 - South Indian
 - North Indian
 
-## lookup:budget
-- Lesser than Rs.300
-- Rs.300 to 700
-- More than 700
+## lookup:location
+   cities.txt
 
-
-## synonym:Lesser than Rs.300
+## synonym:lesser than 300
 - less than 300
 - < 300
 - below 300
+- <300
 
-## synonym:Rs.300 to 700
+## synonym:between 300 to 700
 - in range of 300 to 700
 - between 300 and 700
+- 300 - 700
+- 300-700
+- 300 to 700
 
-## synonym:More than 700
+## synonym:more than 700
 - above 700
+- >700
+- > 700
 
-## synonym:4
-- four
-
-## synonym:chinese
-- Chinese
-- Chinase
+## synonym:Chinese
+- chinase
 - chines
-- Chinese
-- Chines
 
-## synonym:south indian
+## synonym:South Indian
 - south-indian
 - southindian
 - south-indina
-- South Indian
 
-## synonym:north indian
+## synonym:North Indian
 - north-indian
 - northindian
 - north-indina
-- North Indian
 
 ## synonym:Delhi
 - New Delhi
@@ -581,114 +500,73 @@
 - NewDelhi
 - Dellhi
 - newdelhi
-- Newdelhi
-- new delhi
-- new Delhi
 
-## synonym:bangalore
+## synonym:Bangalore
 - Bengaluru
 - Bengalooru
-- Bangalore
 - bngalore
 - bengalluru
 - Bangalor
-- bengaluru
 
 ## synonym:Mumbai
 - Bombay
 - Bambai
 - Bumbai
-- mumbai
-- bombay
 
 ## synonym:Chennai
-- chennai
-- madras
 - Madras
 
 ## synonym:Kolkata
 - Calcutta
 - Calcuta
-- kolkata
 - kolkatta
 
 ## synonym:Hyderabad
-- hyderabad
 - Secunderabad
-- secunderabad
-- cyberabad
 - Cyberabad
 
 ## synonym:Mysore
-- mysore
-- mysuru
 - Mysuru
 
-##synonym:Kochi
-- kochi
-- cochin
+## synonym:Kochi
 - Cochin
 
 ## synonym:Mangalore
-- mangalore
-- mangaluru
 - Mangaluru
 
 ## synonym:Thiruvananthapuram
-- thiruvananthapuram
-- trivandrum
 - Trivandrum
 - Travancore
-- travancore
 
 ## synonym:Amritsar
-- amritsar
 - Amratsar
-- amratsar
 
 ## synonym:Chandigarh
-- chandighar
-- chandigarh
+- Chandighar
 
 ## synonym:Allahabad
-- prayagraj
 - Prayagraj
-- Allahabad
-- allahabad
 
 ## synonym:Pondicherry
-- pondicherry
-- puducherry
 - Puducherry
 
 ## synonym:Nashik
-- nashik
 - Nasik
-- nasik
 
 ## synonym:Vadodara
-- vadodara
 - Vadodra
-- vadodra
 
 ## synonym:Jamshedpur
 - jamshedpur
 - Jamsedpur
-- jamsedpur
 
 ## synonym:Rajahmundry
-- rajahmundry
 - Rajahmundri
-- rajahmundri
 - Rajamundry
-- rajamundry
 - Rajamundri
-- rajamundri
 
 ## synonym:Rourkela
-- rourkela
 - Raurkela
-- raurkela
 
 ## synonym:mid
 - moderate
@@ -700,5 +578,12 @@
 ## regex:greet
 - hey[^\s]*
 
-## regex:pincode
-- [0-9]{6}
+## regex:email
+- [a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+
+
+## regex:location
+- (near|in)[\s][a-zA-Z]+
+
+## regex:price
+- (lesser than 300|between 300 to 700|more than 700)
+

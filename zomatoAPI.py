@@ -46,7 +46,7 @@ class Zomato:
                 temp={}
                 temp['name']=restraunt['restaurant']['name']
                 temp['address']=restraunt['restaurant']['location']['address']
-                temp['budget']=restraunt['restaurant']['average_cost_for_two']
+                temp['average']=restraunt['restaurant']['average_cost_for_two']
                 temp['rating']=restraunt['restaurant']['user_rating']['aggregate_rating']
                 details.append(temp)
             return details

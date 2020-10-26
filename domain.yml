@@ -1,56 +1,116 @@
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
 intents:
-- affirm
 - restaurant_search
-- greet
+- search_by_budget
+- affirm
+- send_over_email
 - goodbye
-- stop
-- ask_budget
-- ask_email
+- greet
 - thank
 - deny
+- out_of_scope
 entities:
 - cuisine
+- email
 - location
-- budget
+- price
 slots:
   cuisine:
     type: text
+    influence_conversation: true
+  cuisine_validation:
+    type: bool
+    influence_conversation: true
+  email:
+    type: text
+    influence_conversation: true
   location:
     type: text
-  budget:
+    influence_conversation: true
+  location_validation:
+    type: bool
+    influence_conversation: true
+  price:
     type: text
-  send:
-    type: boolean
-templates:
-  utter_ask_cuisine:
-  - buttons:
-    - payload: Chinese
-      title: Chinese
-    - payload: Italian
-      title: Italian
-    - payload: South Indian
-      title: South Indian
-    - payload: North Indian
-      title: North Indian
-    text: what kind of cuisine would you like?
-  utter_ask_howcanhelp:
-  - text: how can I help you?
-  utter_ask_location:
-  - text: In what location?
-  utter_default:
-  - text: i cannot understand
+    influence_conversation: true
+  price_validation:
+    type: bool
+    influence_conversation: true
+responses:
   utter_goodbye:
-  - text: goodbye :(
+  - text: See you again!
+  - text: goodbye, hope i was of help today
   - text: Bye-bye
+  - text: Bye!
+  utter_ask_price:
+  - text: What would be your preferred budget?
+    buttons:
+    - title: Lesser than Rs. 300
+      payload: lesser than 300
+    - title: Rs. 300 to 700
+      payload: between 300 to 700
+    - title: More than Rs. 700
+      payload: more than 700
+  utter_ask_cuisine:
+  - text: what kind of cuisine would you like?
+    buttons:
+    - title: Chinese
+      payload: chinese
+    - title: Mexican
+      payload: mexican
+    - title: Italian
+      payload: italian
+    - title: American
+      payload: american
+    - title: South Indian
+      payload: south indian
+    - title: North Indian
+      payload: north indian
+  utter_ask_for_send:
+  - text: Would you like me to send an email with details of restaurants?
+  utter_ask_mail:
+  - text: Please provide your email id.
+  utter_ask_location:
+  - text: Which city would you like to get the details of?
+  - text: In what location?
+  - text: Which city are you looking for?
+  - text: Can you tell me the location you are looking for?
+  utter_confirm_email:
+  - text: An email has been sent to you.
+  utter_cuisine_invalid:
+  - text: Sorry. We do not serve the requested cuisine.
+  - text: Please select the cuisine from list provided.
+  utter_price_invalid:
+  - text: Please select the price range provided.
+  utter_deny:
+  - text: Sorry, hope to serve you better next time.
   utter_greet:
-  - text: hey there! How may i help you
-  - text: Hi, How can I help you!
-  - text: Hey, How is it going. How May I help you Today
+  - text: Hey there! How can i help you today?
+  - text: Howdy! Is there anything i can help you with?
+  - text: Hi
+  - text: Hello
+  - text: Hi, How may I help you ?
+  utter_location_invalid:
+  - text: Sorry, we do not serve at the requested location, Could you please provide me a servicable location ?
+  utter_out_of_scope:
+  - text: Sorry, I do not understand this. Please be specific.
+  - text: Sorry! The Request is out of my scope!
+  utter_did_that_help:
+  - text: Did the information help you?
 actions:
-- action_search_restaurants
+- action_check_cuisine
+- action_check_location
+- action_check_price
+- action_restaurant
+- email_restaurant_details
 - utter_ask_cuisine
-- utter_ask_howcanhelp
+- utter_ask_for_send
 - utter_ask_location
-- utter_default
+- utter_ask_mail
+- utter_ask_price
 - utter_goodbye
 - utter_greet
+- utter_out_of_scope
+version: '2.0'
